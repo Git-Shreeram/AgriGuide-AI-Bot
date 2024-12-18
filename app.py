@@ -8,8 +8,8 @@ import io
 app = Flask(__name__)
 
 # Load configuration from environment variables
-AZURE_OPENAI_ENDPOINT = os.getenv("AZURE_OPENAI_ENDPOINT", "default_endpoint")
-AZURE_OPENAI_API_KEY = os.getenv("AZURE_OPENAI_API_KEY", "default_api_key")
+TENSAIGPT_API_ENDPOINT = os.getenv("TENSAIGPT_API_ENDPOINT", "default_endpoint")
+TENSAIGPT_API_KEY = os.getenv("TENSAIGPT_API_KEY", "default_api_key")
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -48,14 +48,14 @@ def api_messages():
 
         headers = {
             "Content-Type": "application/json",
-            "api-key": AZURE_OPENAI_API_KEY
+            "api-key": TENSAIGPT_API_KEY
         }
         data = {
             "messages": [{"role": "user", "content": user_message}]
         }
 
         response = requests.post(
-            f"{AZURE_OPENAI_ENDPOINT}/openai/deployments/AgriGuideBot/chat/completions?api-version=2024-05-01-preview",
+            f"{TENSAIGPT_API_ENDPOINT}/tensaigpt/deployments/AgriGuideBot/chat/completions",
             json=data, headers=headers)
 
         if response.status_code == 200:
@@ -63,13 +63,13 @@ def api_messages():
             bot_response = response_data['choices'][0]['message']['content']
             return jsonify({"response": bot_response})
         else:
-            error_message = f"Error from Azure OpenAI: {response.status_code} {response.text}"
+            error_message = f"Error from Tensaigpt: {response.status_code} {response.text}"
             logging.error(error_message)
-            return jsonify({"error": "Failed to get a response from Azure OpenAI"}), response.status_code
+            return jsonify({"error": "Failed to get a response from Tensaigpt"}), response.status_code
     except Exception as e:
         error_message = f"Exception: {str(e)}"
         logging.exception(error_message)
         return jsonify({"error": "Internal Server Error"}), 500
 
 if __name__ == "__main__":
-    app.run(port=int(os.getenv("5000, || Port_2 ||)), debug=True)
+    app.run(port=int(os.getenv("|| Port_2 ||, Port_2")), debug=True)

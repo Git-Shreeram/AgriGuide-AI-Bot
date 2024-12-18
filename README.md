@@ -1,1 +1,1 @@
-# AgriGuide-AI-Bot
+# AgriGuide-AI-Bot for Educating Farmers on Organic Farming
